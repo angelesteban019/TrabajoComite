@@ -1,0 +1,40 @@
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+
+class Mascota{
+private String nombre;
+private String color;
+private int edad;
+private String tipo;
+
+public Mascota(String nombre, String color, int edad, String tipo) {
+    this.nombre = nombre;
+    this.color = color;
+    this.edad = edad;
+    this.tipo = tipo;
+}
+
+public String getNombre() {
+    return nombre;
+}
+
+public String getColor() {
+    return color;
+}
+
+public int getEdad() {
+    return edad;
+}
+
+public String getTipo() {
+    return tipo;
+}
+
+@Override
+public String toString() {
+    return "Nombre: " + nombre + ", Color: " + color + ", Edad: " + edad + ", Tipo: " + tipo;
+}
+}
+

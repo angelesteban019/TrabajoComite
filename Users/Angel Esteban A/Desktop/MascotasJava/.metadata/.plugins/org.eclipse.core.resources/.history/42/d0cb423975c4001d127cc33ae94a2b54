@@ -1,0 +1,228 @@
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.LinkedList;
+import java.util.List;
+
+public class VentanaPrincipal extends JFrame {
+    private JTextField idTextField;
+    private JTextField nombreTextField;
+    private JTextField colorTextField;
+    private JTextField edadTextField;
+    private JTextField tipoTextField;
+
+    private JTextArea mascotasTextArea;
+
+    private List<Mascota> mascotas = new LinkedList<>();
+
+    public static void main(String[] args) {
+        EventQueue.invokeLater(() -> {
+            try {
+                VentanaPrincipal frame = new VentanaPrincipal();
+                frame.setVisible(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public VentanaPrincipal() {
+        setTitle("Registro de Mascotas");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setBounds(100, 100, 700, 500);
+
+        JPanel contentPane = new JPanel();
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        setContentPane(contentPane);
+        contentPane.setLayout(null);
+
+        JLabel idLabel = new JLabel("ID:");
+        idLabel.setBounds(30, 30, 50, 20);
+        contentPane.add(idLabel);
+
+        idTextField = new JTextField();
+        idTextField.setBounds(90, 30, 150, 20);
+        contentPane.add(idTextField);
+        idTextField.setColumns(10);
+
+        JLabel nombreLabel = new JLabel("Nombre:");
+        nombreLabel.setBounds(30, 60, 50, 20);
+        contentPane.add(nombreLabel);
+
+        nombreTextField = new JTextField();
+        nombreTextField.setBounds(90, 60, 150, 20);
+        contentPane.add(nombreTextField);
+        nombreTextField.setColumns(10);
+
+        JLabel colorLabel = new JLabel("Color:");
+        colorLabel.setBounds(30, 90, 50, 20);
+        contentPane.add(colorLabel);
+
+        colorTextField = new JTextField();
+        colorTextField.setBounds(90, 90, 150, 20);
+        contentPane.add(colorTextField);
+        colorTextField.setColumns(10);
+
+        JLabel edadLabel = new JLabel("Edad:");
+        edadLabel.setBounds(30, 120, 50, 20);
+        contentPane.add(edadLabel);
+
+        edadTextField = new JTextField();
+        edadTextField.setBounds(90, 120, 150, 20);
+        contentPane.add(edadTextField);
+        edadTextField.setColumns(10);
+
+        JLabel tipoLabel = new JLabel("Tipo:");
+        tipoLabel.setBounds(30, 150, 50, 20);
+        contentPane.add(tipoLabel);
+
+        tipoTextField = new JTextField();
+        tipoTextField.setBounds(90, 150, 150, 20);
+        contentPane.add(tipoTextField);
+        tipoTextField.setColumns(10);
+
+        JButton agregarButton = new JButton("Agregar");
+        agregarButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                agregarMascota();
+            }
+        });
+        agregarButton.setBounds(30, 190, 100, 30);
+        contentPane.add(agregarButton);
+
+        JButton buscarIdButton = new JButton("Buscar por ID");
+        buscarIdButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                buscarMascotaPorId();
+            }
+        });
+        buscarIdButton.setBounds(140, 190, 120, 30);
+        contentPane.add(buscarIdButton);
+
+        JButton buscarNombreButton = new JButton("Buscar por Nombre");
+        buscarNombreButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                buscarMascotaPorNombre();
+            }
+        });
+        buscarNombreButton.setBounds(270, 190, 150, 30);
+        contentPane.add(buscarNombreButton);
+
+        JButton eliminarButton = new JButton("Eliminar");
+        eliminarButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                eliminarMascota();
+            }
+        });
+        eliminarButton.setBounds(430, 190, 100, 30);
+        contentPane.add(eliminarButton);
+
+        JButton imprimirButton = new JButton("Imprimir");
+        imprimirButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                imprimirMascotas();
+            }
+        });
+        imprimirButton.setBounds(540, 190, 100, 30);
+        contentPane.add(imprimirButton);
+
+        mascotasTextArea = new JTextArea();
+        mascotasTextArea.setBounds(30, 240, 610, 200);
+        mascotasTextArea.setEditable(false);
+        contentPane.add(mascotasTextArea);
+    }
+
+    private void agregarMascota() {
+        try {
+            int id = Integer.parseInt(idTextField.getText());
+            String nombre = nombreTextField.getText();
+            String color = colorTextField.getText();
+            int edad = Integer.parseInt(edadTextField.getText());
+            String tipo = tipoTextField.getText();
+            Mascota mascota = new Mascota(id, nombre, color, edad, tipo);
+            mascotas.add(mascota);
+            limpiarCampos();
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "La edad y el ID deben ser números enteros", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void buscarMascotaPorId() {
+        int id = Integer.parseInt(JOptionPane.showInputDialog(this, "Ingrese el ID de la mascota", "Buscar por ID", JOptionPane.PLAIN_MESSAGE));
+        for (Mascota mascota : mascotas) {
+            if (mascota.getId() == id) {
+                JOptionPane.showMessageDialog(this, mascota.toString(), "Mascota Encontrada", JOptionPane.PLAIN_MESSAGE);
+                return;
+            }
+        }
+        JOptionPane.showMessageDialog(this, "Mascota no encontrada", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    private void buscarMascotaPorNombre() {
+        String nombre = JOptionPane.showInputDialog(this, "Ingrese el nombre de la mascota", "Buscar por Nombre", JOptionPane.PLAIN_MESSAGE);
+        StringBuilder sb = new StringBuilder();
+        for (Mascota mascota : mascotas) {
+            if (mascota.getNombre().equals(nombre)) {
+                sb.append(mascota.toString()).append("\n");
+            }
+        }
+        if (sb.length() > 0) {
+            JOptionPane.showMessageDialog(this, sb.toString(), "Mascotas Encontradas", JOptionPane.PLAIN_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Mascotas no encontradas", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void eliminarMascota() {
+        int id = Integer.parseInt(JOptionPane.showInputDialog(this, "Ingrese el ID de la mascota", "Eliminar", JOptionPane.PLAIN_MESSAGE));
+        for (Mascota mascota : mascotas) {
+            if (mascota.getId() == id) {
+                mascotas.remove(mascota);
+                limpiarCampos();
+                return;
+            }
+        }
+        JOptionPane.showMessageDialog(this, "Mascota no encontrada", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    private void imprimirMascotas() {
+        StringBuilder sb = new StringBuilder();
+        int sumaEdades = 0;
+        for (Mascota mascota : mascotas) {
+        	sb.append(mascota.toString()).append("\n");
+        	sumaEdades += mascota.getEdad();
+        	}
+        	sb.append("La suma de todas las edades es: ").append(sumaEdades);
+        	mascotasTextArea.setText(sb.toString());
+        	}
+    private void limpiarCampos() {
+        idTextField.setText("");
+        nombreTextField.setText("");
+        colorTextField.setText("");
+        edadTextField.setText("");
+        tipoTextField.setText("");
+    }
+
+    public static void main(String[] args) {
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    VentanaPrincipal frame = new VentanaPrincipal();
+                    frame.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+}
+
+
+
+
+
+
+
+

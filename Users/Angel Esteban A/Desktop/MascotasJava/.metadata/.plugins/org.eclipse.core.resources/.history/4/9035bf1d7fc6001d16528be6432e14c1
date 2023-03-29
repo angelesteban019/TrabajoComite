@@ -1,0 +1,205 @@
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import java.util.*;
+
+public class RegistroMascotas extends JFrame {
+    
+    private HashMap<Integer, Mascota> mascotas;
+    private JTextField txtId, txtNombre, txtColor, txtEdad, txtTipo;
+    private JTextArea txtLista;
+    private JButton btnAgregar, btnBuscarId, btnBuscarNombre, btnEliminar, btnImprimir, btnSumarEdades;
+
+    public RegistroMascotas() {
+        mascotas = new HashMap<Integer, Mascota>();
+        setTitle("Registro de Mascotas");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
+        setSize(500, 400);
+        setLocationRelativeTo(null);
+        setLayout(new GridLayout(7, 2, 5, 5));
+        initComponents();
+        setVisible(true);
+    }
+
+    private void initComponents() {
+        add(new JLabel("ID:"));
+        txtId = new JTextField(10);
+        add(txtId);
+        add(new JLabel("Nombre:"));
+        txtNombre = new JTextField(10);
+        add(txtNombre);
+        add(new JLabel("Color:"));
+        txtColor = new JTextField(10);
+        add(txtColor);
+        add(new JLabel("Edad:"));
+        txtEdad = new JTextField(10);
+        add(txtEdad);
+        add(new JLabel("Tipo:"));
+        txtTipo = new JTextField(10);
+        add(txtTipo);
+        btnAgregar = new JButton("Agregar");
+        btnAgregar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                agregarMascota();
+            }
+        });
+        add(btnAgregar);
+        btnBuscarId = new JButton("Buscar por ID");
+        btnBuscarId.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                buscarMascotaPorId();
+            }
+        });
+        add(btnBuscarId);
+        btnBuscarNombre = new JButton("Buscar por Nombre");
+        btnBuscarNombre.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                buscarMascotaPorNombre();
+            }
+        });
+        add(btnBuscarNombre);
+        btnEliminar = new JButton("Eliminar");
+        btnEliminar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                eliminarMascota();
+            }
+        });
+        add(btnEliminar);
+        btnImprimir = new JButton("Imprimir Lista");
+        btnImprimir.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                imprimirLista();
+            }
+        });
+        add(btnImprimir);
+        btnSumarEdades = new JButton("Sumar Edades");
+        btnSumarEdades.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                sumarEdades();
+            }
+        });
+        add(btnSumarEdades);
+        txtLista = new JTextArea();
+        txtLista.setEditable(false);
+        add(new JScrollPane(txtLista));
+    }
+
+    private void agregarMascota() {
+        int id = Integer.parseInt(txtId.getText());
+        String nombre = txtNombre.getText();
+        String color = txtColor.getText();
+        int edad = Integer.parseInt(txtEdad.getText());
+        String tipo = txtTipo.getText();
+        mascotas.put(id, new Mascota(nombre, color, edad, tipo));
+        JOptionPane.showMessageDialog(null, "Mascota agregada correctamente.");
+        limpiarCampos();
+    }
+
+    private void buscarMascotaPorId() {
+        int id = Integer.parseInt(txtId.getText());
+        Mascota mascota = mascotas.get(id);
+        if (mascota != null) {
+            JOptionPane.showMessageDialog(null, "Mascota encontrada:\n" + mascota.toString());
+        }
+        else {
+        	JOptionPane.showMessageDialog(null, "No se encontró ninguna mascota con ese ID.");
+        	}
+        	limpiarCampos();
+        	}
+    private void buscarMascotaPorNombre() {
+        String nombre = txtNombre.getText();
+        boolean encontrada = false;
+        String listaMascotas = "Mascotas encontradas:\n";
+        for (Mascota mascota : mascotas.values()) {
+            if (mascota.getNombre().equalsIgnoreCase(nombre)) {
+                listaMascotas += mascota.toString() + "\n";
+                encontrada = true;
+            }
+        }
+        if (encontrada) {
+            JOptionPane.showMessageDialog(null, listaMascotas);
+        } else {
+            JOptionPane.showMessageDialog(null, "No se encontró ninguna mascota con ese nombre.");
+        }
+        limpiarCampos();
+    }
+
+    private void eliminarMascota() {
+        int id = Integer.parseInt(txtId.getText());
+        if (mascotas.remove(id) != null) {
+            JOptionPane.showMessageDialog(null, "Mascota eliminada correctamente.");
+        } else {
+            JOptionPane.showMessageDialog(null, "No se encontró ninguna mascota con ese ID.");
+        }
+        limpiarCampos();
+    }
+
+    private void imprimirLista() {
+        String listaMascotas = "Lista de Mascotas:\n";
+        for (Mascota mascota : mascotas.values()) {
+            listaMascotas += mascota.toString() + "\n";
+        }
+        txtLista.setText(listaMascotas);
+        limpiarCampos();
+    }
+
+    private void sumarEdades() {
+        int sumaEdades = 0;
+        for (Mascota mascota : mascotas.values()) {
+            sumaEdades += mascota.getEdad();
+        }
+        JOptionPane.showMessageDialog(null, "La suma de las edades de las mascotas es: " + sumaEdades);
+        limpiarCampos();
+    }
+
+    private void limpiarCampos() {
+        txtId.setText("");
+        txtNombre.setText("");
+        txtColor.setText("");
+        txtEdad.setText("");
+        txtTipo.setText("");
+    }
+
+    public static void main(String[] args) {
+        new RegistroMascotas();
+    }
+
+
+class Mascota { private String nombre;
+private String color;
+private int edad;
+private String tipo;
+
+public Mascota(String nombre, String color, int edad, String tipo) {
+    this.nombre = nombre;
+    this.color = color;
+    this.edad = edad;
+    this.tipo = tipo;
+}
+
+public String getNombre() {
+    return nombre;
+}
+
+public String getColor() {
+    return color;
+}
+
+public int getEdad() {
+    return edad;
+}
+
+public String getTipo() {
+    return tipo;
+}
+
+public String toString() {
+    return "ID: " + hashCode() + ", Nombre: " + nombre + ", Color: " + color + ", Edad: " + edad + ", Tipo: " + tipo;
+}
+}
+}
+
+
+
+

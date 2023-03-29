@@ -1,0 +1,74 @@
+
+import java.util.HashMap;
+import java.util.Scanner;
+
+public class RegistroMascotas {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        HashMap<Integer, Mascota> mascotas = new HashMap<Integer, Mascota>();
+        int opcion = 0;
+        while (opcion != 3) {
+            System.out.println("Seleccione una opción:");
+            System.out.println("1. Registrar una mascota");
+            System.out.println("2. Ver todas las mascotas registradas");
+            System.out.println("3. Salir");
+            opcion = scanner.nextInt();
+            scanner.nextLine(); // Consumir el salto de línea después del número
+            switch (opcion) {
+                case 1:
+                    System.out.println("Ingrese los datos de la mascota:");
+                    System.out.print("ID: ");
+                    int id = scanner.nextInt();
+                    scanner.nextLine(); // Consumir el salto de línea después del número
+                    System.out.print("Nombre: ");
+                    String nombre = scanner.nextLine();
+                    System.out.print("Color: ");
+                    String color = scanner.nextLine();
+                    System.out.print("Edad: ");
+                    int edad = scanner.nextInt();
+                    scanner.nextLine(); // Consumir el salto de línea después del número
+                    System.out.print("Tipo: ");
+                    String tipo = scanner.nextLine();
+                    Mascota mascota = new Mascota(nombre, color, edad, tipo);
+                    mascotas.put(id, mascota);
+                    System.out.println("La mascota ha sido registrada correctamente.");
+                    break;
+                case 2:
+                    System.out.println("Mascotas registradas:");
+                    for (int i : mascotas.keySet()) {
+                        System.out.println("ID: " + i + " - " + mascotas.get(i));
+                    }
+                    break;
+                case 3:
+                    System.out.println("¡Hasta luego!");
+                    break;
+                default:
+                    System.out.println("Opción inválida.");
+                    break;
+            }
+        }
+        scanner.close();
+    }
+
+    static class Mascota {
+        private String nombre;
+        private String color;
+        private int edad;
+        private String tipo;
+
+        public Mascota(String nombre, String color, int edad, String tipo) {
+            this.nombre = nombre;
+            this.color = color;
+            this.edad = edad;
+            this.tipo = tipo;
+        }
+
+        @Override
+        public String toString() {
+            return "Nombre: " + nombre + ", Color: " + color + ", Edad: " + edad + ", Tipo: " + tipo;
+        }
+    }
+
+}
+   

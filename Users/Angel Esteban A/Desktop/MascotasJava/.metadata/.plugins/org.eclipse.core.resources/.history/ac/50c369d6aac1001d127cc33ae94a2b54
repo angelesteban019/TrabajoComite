@@ -1,0 +1,86 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class RegistroMascotas {
+
+    static ArrayList<Mascota> listaMascotas = new ArrayList<Mascota>();
+    static Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        int opcion;
+        do {
+            System.out.println("1. Agregar mascota");
+            System.out.println("2. Buscar mascota por id");
+            System.out.println("3. Buscar mascota por nombre");
+            System.out.println("4. Eliminar mascota");
+            System.out.println("5. Mostrar lista de mascotas");
+            System.out.println("6. Salir");
+            System.out.print("Ingrese una opción: ");
+            opcion = scanner.nextInt();
+            scanner.nextLine(); // Consumir el salto de línea después de leer el entero
+
+            switch (opcion) {
+                case 1:
+                    agregarMascota();
+                    break;
+                case 2:
+                    buscarMascotaPorId();
+                    break;
+                case 3:
+                    buscarMascotaPorNombre();
+                    break;
+                case 4:
+                    eliminarMascota();
+                    break;
+                case 5:
+                    mostrarListaMascotas();
+                    break;
+                case 6:
+                    System.out.println("Hasta pronto!");
+                    break;
+                default:
+                    System.out.println("Opción inválida.");
+            }
+            System.out.println();
+        } while (opcion != 6);
+    }
+
+    public static void agregarMascota() {
+        System.out.println("Ingresar los datos de la mascota:");
+        System.out.print("ID: ");
+        int id = scanner.nextInt();
+        scanner.nextLine(); // Consumir el salto de línea después de leer el entero
+        System.out.print("Nombre: ");
+        String nombre = scanner.nextLine();
+        System.out.print("Color: ");
+        String color = scanner.nextLine();
+        System.out.print("Edad: ");
+        int edad = scanner.nextInt();
+        scanner.nextLine(); // Consumir el salto de línea después de leer el entero
+        System.out.print("Tipo: ");
+        String tipo = scanner.nextLine();
+        Mascota mascota = new Mascota(id, nombre, color, edad, tipo);
+        listaMascotas.add(mascota);
+        System.out.println("Mascota agregada exitosamente.");
+    }
+
+    public static void buscarMascotaPorId() {
+        System.out.print("Ingrese el ID de la mascota a buscar: ");
+        int id = scanner.nextInt();
+        scanner.nextLine(); // Consumir el salto de línea después de leer el entero
+        Mascota mascotaEncontrada = null;
+        for (Mascota mascota : listaMascotas) {
+            if (mascota.getId() == id) {
+                mascotaEncontrada = mascota;
+                break;
+            }
+        }
+        if (mascotaEncontrada != null) {
+            System.out.println(mascotaEncontrada);
+        } else {
+            System.out.println("No se encontró ninguna mascota con ese ID.");
+        }
+    }
+}
+
+   

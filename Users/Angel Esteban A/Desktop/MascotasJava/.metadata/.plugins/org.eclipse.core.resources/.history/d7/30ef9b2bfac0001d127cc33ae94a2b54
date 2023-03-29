@@ -1,0 +1,107 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class RegistroMascotas {
+    private ArrayList<Mascota> mascotas;
+    private Scanner scanner;
+
+    public RegistroMascotas() {
+        mascotas = new ArrayList<>();
+        scanner = new Scanner(System.in);
+    }
+
+    public void registrarMascota() {
+        int id, edad;
+        String nombre, color, tipo;
+
+        // Solicitar los datos de la mascota
+        System.out.println("Ingrese los datos de la mascota:");
+        System.out.print("ID: ");
+        id = scanner.nextInt();
+        scanner.nextLine(); // Consumir el salto de línea
+
+        System.out.print("Nombre: ");
+        nombre = scanner.nextLine();
+
+        System.out.print("Color: ");
+        color = scanner.nextLine();
+
+        System.out.print("Edad: ");
+        edad = scanner.nextInt();
+        scanner.nextLine(); // Consumir el salto de línea
+
+        System.out.print("Tipo: ");
+        tipo = scanner.nextLine();
+
+        // Crear el objeto Mascota y agregarlo a la lista
+        Mascota mascota = new Mascota(id, nombre, color, edad, tipo);
+        mascotas.add(mascota);
+
+        System.out.println("Mascota registrada correctamente.");
+    }
+
+    public void buscarMascotaPorId(int id) {
+        boolean encontrada = false;
+        for (Mascota mascota : mascotas) {
+            if (mascota.getId() == id) {
+                System.out.println(mascota.toString());
+                encontrada = true;
+                break;
+            }
+        }
+
+        if (!encontrada) {
+            System.out.println("No se encontró una mascota con el ID especificado.");
+        }
+    }
+
+    public void buscarMascotaPorNombre(String nombre) {
+        boolean encontrada = false;
+        for (Mascota mascota : mascotas) {
+            if (mascota.getNombre().equals(nombre)) {
+                System.out.println(mascota.toString());
+                encontrada = true;
+            }
+        }
+
+        if (!encontrada) {
+            System.out.println("No se encontró una mascota con el nombre especificado.");
+        }
+    }
+
+    public void eliminarMascota(int id) {
+        boolean eliminada = false;
+        for (Mascota mascota : mascotas) {
+            if (mascota.getId() == id) {
+                mascotas.remove(mascota);
+                eliminada = true;
+                break;
+            }
+        }
+
+        if (eliminada) {
+            System.out.println("Mascota eliminada correctamente.");
+        } else {
+            System.out.println("No se encontró una mascota con el ID especificado.");
+        }
+    }
+
+    public void mostrarMascotas() {
+        System.out.println("Mascotas registradas:");
+        for (Mascota mascota : mascotas) {
+            System.out.println(mascota.toString());
+        }
+    }
+
+    public static void main(String[] args) {
+        RegistroMascotas registro = new RegistroMascotas();
+        Scanner scanner = new Scanner(System.in);
+        int opcion = 0;
+
+        while (opcion != 5) {
+            System.out.println("\nMenú:");
+            System.out.println("1. Registrar mascota");
+            System.out.println("2. Buscar mascota por ID");
+            System.out.println("3. Buscar mascota por nombre");
+            System.out.println("4. Eliminar mascota");
+           

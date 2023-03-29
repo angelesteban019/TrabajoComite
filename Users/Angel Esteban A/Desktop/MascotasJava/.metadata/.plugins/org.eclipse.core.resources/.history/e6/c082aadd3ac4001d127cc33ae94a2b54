@@ -1,0 +1,122 @@
+import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Hashtable;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+import java.awt.Font;
+
+public class VentanaPrincipal extends JFrame implements ActionListener{
+
+	private JPanel contentPane;
+	private JTextField campoId;
+	private JTextField campoNombre;
+	private JTextField campoEdad;
+	private JTextField campoColor;
+	private JTextField campoTipo;
+	private JButton btnEliminar;
+	private JButton btnRegistrar;
+	private JButton btnBuscar;
+	private JButton btnConsultarLista;
+	private JLabel lblNewLabel_5;
+	
+
+	public VentanaPrincipal() {
+		initialize();
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLocationRelativeTo(null);
+		
+	}
+	
+	private void initialize() {
+		setBounds(100, 100, 450, 300);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		campoId = new JTextField();
+		campoId.setBounds(71, 95, 112, 20);
+		contentPane.add(campoId);
+		campoId.setColumns(10);
+		
+		campoNombre = new JTextField();
+		campoNombre.setBounds(250, 95, 112, 20);
+		contentPane.add(campoNombre);
+		campoNombre.setColumns(10);
+		
+		campoEdad = new JTextField();
+		campoEdad.setBounds(71, 196, 86, 20);
+		contentPane.add(campoEdad);
+		campoEdad.setColumns(10);
+		
+		campoColor = new JTextField();
+		campoColor.setBounds(71, 164, 86, 20);
+		contentPane.add(campoColor);
+		campoColor.setColumns(10);
+		
+		btnEliminar = new JButton("Eliminar");
+		btnEliminar.setBounds(217, 195, 89, 23);
+		contentPane.add(btnEliminar);
+		
+		btnRegistrar = new JButton("Registrar");
+		btnRegistrar.setBounds(322, 195, 89, 23);
+		btnRegistrar.addActionListener(this);
+		contentPane.add(btnRegistrar);
+		
+		btnBuscar = new JButton("Buscar");
+		btnBuscar.setBounds(217, 163, 89, 23);
+		contentPane.add(btnBuscar);
+		
+		 btnConsultarLista = new JButton("Consultar");
+		btnConsultarLista.setBounds(322, 163, 89, 23);
+		contentPane.add(btnConsultarLista);
+		
+		campoTipo = new JTextField();
+		campoTipo.setBounds(71, 126, 86, 20);
+		contentPane.add(campoTipo);
+		campoTipo.setColumns(10);
+		
+		JLabel lblNewLabel = new JLabel("Id");
+		lblNewLabel.setBounds(41, 98, 30, 14);
+		contentPane.add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("Nombre");
+		lblNewLabel_1.setBounds(194, 98, 46, 14);
+		contentPane.add(lblNewLabel_1);
+		
+		JLabel lblNewLabel_2 = new JLabel("Tipo");
+		lblNewLabel_2.setBounds(31, 129, 30, 14);
+		contentPane.add(lblNewLabel_2);
+		
+		JLabel lblNewLabel_3 = new JLabel("Color");
+		lblNewLabel_3.setBounds(31, 167, 30, 14);
+		contentPane.add(lblNewLabel_3);
+		
+		JLabel lblNewLabel_4 = new JLabel("Edad");
+		lblNewLabel_4.setBounds(25, 199, 30, 14);
+		contentPane.add(lblNewLabel_4);
+		
+		lblNewLabel_5 = new JLabel("PETS");
+		lblNewLabel_5.setFont(new Font("Tw Cen MT Condensed Extra Bold", Font.PLAIN, 30));
+		lblNewLabel_5.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_5.setBounds(165, 11, 89, 34);
+		contentPane.add(lblNewLabel_5);
+	
+	}
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == btnRegistrar) {
+			System.out.println("Hola");
+		}
+	}
+}
+
+

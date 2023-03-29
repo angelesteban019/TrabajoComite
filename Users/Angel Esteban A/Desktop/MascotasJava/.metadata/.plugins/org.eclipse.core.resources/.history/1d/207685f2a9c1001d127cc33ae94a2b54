@@ -1,0 +1,42 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Mascotas {
+    static ArrayList<Mascota> listaMascotas = new ArrayList<Mascota>();
+    static Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        int opcion;
+        do {
+            System.out.println("1. Agregar mascota");
+            System.out.println("2. Buscar mascota por id");
+            System.out.println("3. Buscar mascota por nombre");
+            System.out.println("4. Eliminar mascota");
+            System.out.println("5. Salir");
+            System.out.print("Ingrese una opción: ");
+            opcion = scanner.nextInt();
+            scanner.nextLine(); // Consumir el salto de línea después de leer el entero
+
+            switch (opcion) {
+                case 1:
+                    agregarMascota();
+                    break;
+                case 2:
+                    buscarMascotaPorId();
+                    break;
+                case 3:
+                    buscarMascotaPorNombre();
+                    break;
+                case 4:
+                    eliminarMascota();
+                    break;
+                case 5:
+                    System.out.println("Hasta pronto!");
+                    break;
+                default:
+                    System.out.println("Opción inválida.");
+            }
+            System.out.println();
+        } while (opcion != 5);
+    }
+}

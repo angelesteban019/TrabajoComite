@@ -1,0 +1,102 @@
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class Mascotas {
+    public static void main(String[] args) {
+        Map<Integer, MascotasP> mascotas = new HashMap<Integer, Mascota>();
+        Scanner sc = new Scanner(System.in);
+
+        int opcion;
+        do {
+            System.out.println("\nMenú de opciones");
+            System.out.println("-----------------");
+            System.out.println("1. Registrar mascota");
+            System.out.println("2. Buscar mascota por ID");
+            System.out.println("3. Buscar mascota por nombre");
+            System.out.println("4. Eliminar mascota");
+            System.out.println("5. Salir");
+            System.out.print("Ingrese su opción: ");
+            opcion = sc.nextInt();
+
+            switch (opcion) {
+                case 1:
+                    System.out.println("\nRegistro de mascota");
+                    System.out.println("--------------------");
+                    System.out.print("Ingrese ID: ");
+                    int id = sc.nextInt();
+                    sc.nextLine();
+                    System.out.print("Ingrese nombre: ");
+                    String nombre = sc.nextLine();
+                    System.out.print("Ingrese color: ");
+                    String color = sc.nextLine();
+                    System.out.print("Ingrese edad: ");
+                    int edad = sc.nextInt();
+                    sc.nextLine();
+                    System.out.print("Ingrese tipo: ");
+                    String tipo = sc.nextLine();
+
+                    Mascota mascota = new Mascota(id, nombre, color, edad, tipo);
+                    mascotas.put(id, mascota);
+                    System.out.println("Mascota registrada exitosamente");
+                    break;
+
+                case 2:
+                    System.out.println("\nBúsqueda de mascota por ID");
+                    System.out.println("--------------------------");
+                    System.out.print("Ingrese ID de la mascota a buscar: ");
+                    int idBusqueda = sc.nextInt();
+
+                    if (mascotas.containsKey(idBusqueda)) {
+                        System.out.println(mascotas.get(idBusqueda));
+                    } else {
+                        System.out.println("No se encontró ninguna mascota con ese ID");
+                    }
+                    break;
+
+                case 3:
+                    System.out.println("\nBúsqueda de mascota por nombre");
+                    System.out.println("-------------------------------");
+                    System.out.print("Ingrese nombre de la mascota a buscar: ");
+                    String nombreBusqueda = sc.nextLine();
+
+                    boolean encontrado = false;
+                    for (Map.Entry<Integer, Mascota> entry : mascotas.entrySet()) {
+                        Mascota m = entry.getValue();
+                        if (m.getNombre().equalsIgnoreCase(nombreBusqueda)) {
+                            System.out.println(m);
+                            encontrado = true;
+                        }
+                    }
+
+                    if (!encontrado) {
+                        System.out.println("No se encontró ninguna mascota con ese nombre");
+                    }
+                    break;
+
+                case 4:
+                    System.out.println("\nEliminación de mascota");
+                    System.out.println("-----------------------");
+                    System.out.print("Ingrese ID de la mascota a eliminar: ");
+                    int idEliminar = sc.nextInt();
+
+                    if (mascotas.containsKey(idEliminar)) {
+                        mascotas.remove(idEliminar);
+                        System.out.println("Mascota eliminada exitosamente");
+                    } else {
+                        System.out.println("No se encontró ninguna mascota con ese ID");
+                    }
+                    break;
+
+                case 5:
+                    System.out.println("\nGracias por utilizar el programa");
+                    break;
+
+                default:
+                    System.out.println("\nOpción inválida. Por favor ingrese una opción válida");
+                    break;
+            }
+
+        } while (opcion != 5);
+    }
+}

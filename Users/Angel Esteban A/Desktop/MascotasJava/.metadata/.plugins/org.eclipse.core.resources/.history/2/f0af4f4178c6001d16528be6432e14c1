@@ -1,0 +1,264 @@
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.LinkedList;
+import java.util.List;
+
+
+import java.util.HashMap;
+
+public class VentanaPrincipal extends JFrame {
+    private JTextField idTextField;
+    private JTextField nombreTextField;
+    private JTextField colorTextField;
+    private JTextField edadTextField;
+    private JTextField tipoTextField;
+
+    private JTextArea mascotasTextArea;
+
+    private HashMap<Integer, Mascota> mascotas = new HashMap<>();
+
+    public static void main(String[] args) { 
+                VentanaPrincipal frame = new VentanaPrincipal();
+                frame.setVisible(true);
+    }
+    
+    
+    public VentanaPrincipal() {
+        setTitle("Registro de Mascotas");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setBounds(100, 100, 700, 500);
+
+        JPanel contentPane = new JPanel();
+        contentPane.setBackground(new Color(255, 255, 128));
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        setContentPane(contentPane);
+        contentPane.setLayout(null);
+
+        JLabel idLabel = new JLabel("ID:");
+        idLabel.setBounds(30, 30, 50, 20);
+        contentPane.add(idLabel);
+
+        idTextField = new JTextField();
+        idTextField.setBounds(90, 30, 150, 20);
+        contentPane.add(idTextField);
+        idTextField.setColumns(10);
+
+        JLabel nombreLabel = new JLabel("Nombre:");
+        nombreLabel.setBounds(30, 60, 50, 20);
+        contentPane.add(nombreLabel);
+
+        nombreTextField = new JTextField();
+        nombreTextField.setBounds(90, 60, 150, 20);
+        contentPane.add(nombreTextField);
+        nombreTextField.setColumns(10);
+
+        JLabel colorLabel = new JLabel("Color:");
+        colorLabel.setBounds(30, 90, 50, 20);
+        contentPane.add(colorLabel);
+
+        colorTextField = new JTextField();
+        colorTextField.setBounds(90, 90, 150, 20);
+        contentPane.add(colorTextField);
+        colorTextField.setColumns(10);
+
+        JLabel edadLabel = new JLabel("Edad:");
+        edadLabel.setBounds(30, 120, 50, 20);
+        contentPane.add(edadLabel);
+
+        edadTextField = new JTextField();
+        edadTextField.setBounds(90, 120, 150, 20);
+        contentPane.add(edadTextField);
+        edadTextField.setColumns(10);
+
+        JLabel tipoLabel = new JLabel("Tipo:");
+        tipoLabel.setBounds(30, 150, 50, 20);
+        contentPane.add(tipoLabel);
+
+        tipoTextField = new JTextField();
+        tipoTextField.setBounds(90, 150, 150, 20);
+        contentPane.add(tipoTextField);
+        tipoTextField.setColumns(10);
+
+        JButton agregarButton = new JButton("Agregar");
+        agregarButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                agregarMascota();
+            }
+        });
+        agregarButton.setBounds(30, 190, 100, 30);
+        contentPane.add(agregarButton);
+
+        JButton buscarIdButton = new JButton("Buscar por ID");
+        buscarIdButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                buscarMascotaPorId();
+            }
+        });
+        buscarIdButton.setBounds(140, 190, 120, 30);
+        contentPane.add(buscarIdButton);
+
+        JButton buscarNombreButton = new JButton("Buscar por Nombre");
+        buscarNombreButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                buscarMascotaPorNombre();
+            }
+        });
+        buscarNombreButton.setBounds(270, 190, 150, 30);
+        contentPane.add(buscarNombreButton);
+
+        JButton eliminarButton = new JButton("Eliminar");
+        eliminarButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                eliminarMascota();
+            }
+        });
+        eliminarButton.setBounds(430, 190, 100, 30);
+        contentPane.add(eliminarButton);
+
+        JButton imprimirButton = new JButton("Imprimir");
+        imprimirButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                imprimirMascotas();
+            }
+        });
+        imprimirButton.setBounds(540, 190, 100, 30);
+        contentPane.add(imprimirButton);
+
+        mascotasTextArea = new JTextArea();
+        mascotasTextArea.setBounds(30, 240, 610, 200);
+        mascotasTextArea.setEditable(false);
+        contentPane.add(mascotasTextArea);
+        
+        JLabel lblTitulo = new JLabel("PETS REGISTER");
+        lblTitulo.setFont(new Font("Yu Gothic UI Semilight", Font.BOLD | Font.ITALIC, 30));
+        lblTitulo.setBounds(356, 85, 209, 36);
+        contentPane.add(lblTitulo);
+    }
+    
+    
+    private void agregarMascota() {
+        try {
+            int id = Integer.parseInt(idTextField.getText());
+            String nombre = nombreTextField.getText();
+            String color = colorTextField.getText();
+            int edad = Integer.parseInt(edadTextField.getText());
+            String tipo = tipoTextField.getText();
+            if (mascotas.containsKey(id)) {
+                JOptionPane.showMessageDialog(this, "Ya existe una mascota con el ID especificado", "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                Mascota mascota = new Mascota(id, nombre, color, edad, tipo);
+                mascotas.put(id, mascota);
+                limpiarCampos();
+            }
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "La edad y el ID deben ser números enteros", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void buscarMascotaPorId() {
+        int id = Integer.parseInt(JOptionPane.showInputDialog(this, "Ingrese el ID de la mascota", "Buscar por ID", JOptionPane.PLAIN_MESSAGE));
+        Mascota mascota = mascotas.get(id);
+        if (mascota == null) {
+            JOptionPane.showMessageDialog(this, "No se encontró ninguna mascota con el ID especificado", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            mostrarMascota(mascota);
+        }
+    }
+
+    private void eliminarMascota() {
+        int id = Integer.parseInt(JOptionPane.showInputDialog(this, "Ingrese el ID de la mascota a eliminar", "Eliminar", JOptionPane.PLAIN_MESSAGE));
+        if (mascotas.containsKey(id)) {
+            mascotas.remove(id);
+            limpiarCampos();
+            JOptionPane.showMessageDialog(this, "Mascota eliminada correctamente", "Eliminar", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "No se encontró ninguna mascota con el ID especificado", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void imprimirMascotas() {
+        mascotasTextArea.setText("");
+        for (Mascota mascota : mascotas.values()) {
+            mascotasTextArea.append(mascota.toString() + "\n");
+        }
+    }
+
+    private void limpiarCampos() {
+        idTextField.setText("");
+        nombreTextField.setText("");
+        colorTextField.setText("");
+        edadTextField.setText("");
+        tipoTextField.setText("");
+    }
+
+
+class Mascota {
+private int id;
+private String nombre;
+private String color;
+private int edad;
+private String tipo;
+public Mascota(int id, String nombre, String color, int edad, String tipo) {
+    this.id = id;
+    this.nombre = nombre;
+    this.color = color;
+    this.edad = edad;
+    this.tipo = tipo;
+}
+
+public int getId() {
+    return id;
+}
+
+public void setId(int id) {
+    this.id = id;
+}
+
+public String getNombre() {
+    return nombre;
+}
+
+public void setNombre(String nombre) {
+    this.nombre = nombre;
+}
+
+public String getColor() {
+    return color;
+}
+
+public void setColor(String color) {
+    this.color = color;
+}
+
+public int getEdad() {
+    return edad;
+}
+
+public void setEdad(int edad) {
+    this.edad = edad;
+}
+
+public String getTipo() {
+    return tipo;
+}
+
+public void setTipo(String tipo) {
+    this.tipo = tipo;
+}
+
+@Override
+public String toString() {
+    return "ID: " + id + " - Nombre: " + nombre + " - Color: " + color + " - Edad: " + edad + " - Tipo: " + tipo;
+}
+}
+}
+
+
+
+
+
+
+
